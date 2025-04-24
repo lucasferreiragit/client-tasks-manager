@@ -1,10 +1,9 @@
 export interface Task {
   id: string;
   title: string;
-  description?: string;
-  expirationDate?: Date;
-  assignee?: string;
-  status: "pending" | "in_progress" | "completed";
-  createdAt: Date;
-  updatedAt: Date;
+  description: string;
+  completed: boolean;
+  priority: "0" | "1" | "2" | "3" | "4";
+  createdAt: string;
+  updatedAt: string;
 }

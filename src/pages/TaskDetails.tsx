@@ -1,12 +1,20 @@
 import { useParams } from "react-router-dom";
-import tasks from "../mockupTasks";
+import { useTask } from "../hooks/useTasks";
 
-export default function TaskDetails({}) {
+export default function TaskDetails() {
   const { id } = useParams();
+  const { data: task, isLoading } = useTask(id as string);
 
-  if (!id) {
-    return <h1>Task not found</h1>;
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  return <h1>Task Details {id}</h1>;
+  return (
+    <div className="grid border-2 p-4 w-1/2 mx-auto">
+      <h1>Task Details {id}</h1>
+      <p>{task?.title}</p>
+      <p>{task?.description}</p>
+      <p>{task?.priority}</p>
+    </div>
+  );
 }

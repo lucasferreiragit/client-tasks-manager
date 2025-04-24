@@ -1,6 +1,12 @@
 import { useFormik } from "formik";
 import { twMerge } from "tailwind-merge";
 import * as Yup from "yup";
+import { useCreateTask } from "../hooks/useTasks";
+import { useNavigate } from "react-router-dom";
+import {
+  PRIORITY_OPTIONS,
+  DEFAULT_TASK_FORM_VALUES,
+} from "../constants/taskConstants";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
@@ -12,24 +18,37 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function CreateNewTask() {
+  const {
+    mutate: createTask,
+    isPending,
+    error,
+    isSuccess,
+    data,
+  } = useCreateTask();
+  const navigate = useNavigate();
   const formik = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      assignee: "",
-      status: "pending",
-    },
+    initialValues: DEFAULT_TASK_FORM_VALUES,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      createTask(values);
     },
   });
 
   const disabled = formik.isSubmitting || !formik.isValid;
-
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+  if (isSuccess) {
+    // navigate to the new task
+    const newTask = data;
+    navigate(`/task/${newTask.id}`);
+  }
   return (
     <form
-      className="p-3 bg-gray-400/30 grid w-1/3 gap-4 rounded-md mx-auto min-h-[400px]"
+      className={twMerge(
+        "p-3 bg-gray-400/30 grid w-1/3 gap-4 rounded-md mx-auto min-h-[400px]",
+        isPending ? "opacity-50 cursor-not-allowed" : ""
+      )}
       onSubmit={formik.handleSubmit}
     >
       <label htmlFor="title">Title</label>
@@ -42,11 +61,19 @@ export default function CreateNewTask() {
       {formik.errors.description && (
         <span className="text-red-500">{formik.errors.description}</span>
       )}
-      <label htmlFor="assignee">Assignee</label>
-      <input type="text" name="assignee" onChange={formik.handleChange} />
-      {formik.errors.assignee && (
-        <span className="text-red-500">{formik.errors.assignee}</span>
-      )}
+      <label htmlFor="priority">Priority</label>
+      <select
+        name="priority"
+        onChange={formik.handleChange}
+        value={formik.values.priority}
+        className="border rounded p-2"
+      >
+        {Object.entries(PRIORITY_OPTIONS).map(([key, value]) => (
+          <option key={key} value={key}>
+            {value}
+          </option>
+        ))}
+      </select>
       <button
         type="submit"
         className={twMerge(
