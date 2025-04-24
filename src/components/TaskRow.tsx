@@ -1,4 +1,4 @@
-import { Info, Trash } from "lucide-react";
+import { Info } from "lucide-react";
 import { Task } from "../types";
 import Dialog from "./Dialog";
 import { useState } from "react";
@@ -6,8 +6,10 @@ import TaskDetailsCard from "./TaskDetailsCard";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
 import { useDeleteTask } from "../hooks/useTasks";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Tooltip from "./ui/Tooltip";
+import { twMerge } from "tailwind-merge";
+import { Trash2 } from "lucide-react";
 
 interface TaskRowProps {
   task: Task;
@@ -19,15 +21,6 @@ const TaskInfoButton = ({ onClick }: { onClick: () => void }) => (
     onClick={onClick}
   >
     <Info className="w-4 h-4" />
-  </button>
-);
-
-const DeleteButton = ({ onClick }: { onClick: () => void }) => (
-  <button
-    className="text-red-500 p-3 hover:bg-gray-50 transition-all duration-200 rounded-full"
-    onClick={onClick}
-  >
-    <Trash className="w-4 h-4" />
   </button>
 );
 
@@ -65,16 +58,18 @@ const TaskContent = ({ task }: { task: Task }) => (
 
 export default function TaskRow({ task }: TaskRowProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate: deleteTask } = useDeleteTask();
+  const { mutate: deleteTask, isPending } = useDeleteTask();
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       deleteTask(task.id, {
         onSuccess: () => {
           toast.success("Task deleted successfully");
+          console.log("Task deleted successfully");
         },
         onError: () => {
           toast.error("Failed to delete task");
+          console.log("Failed to delete task");
         },
       });
     }
@@ -82,13 +77,24 @@ export default function TaskRow({ task }: TaskRowProps) {
 
   return (
     <>
-      <div className="flex items-center gap-2 px-2 w-[90%]  bg-slate-50/50 shadow-md rounded-md">
+      <div
+        className={twMerge(
+          "flex items-center gap-2 px-2 w-[90%]  bg-slate-50/50 shadow-md rounded-md",
+          isPending && "opacity-50"
+        )}
+      >
         <Tooltip content="View Details" id={`view-task-${task.id}`}>
           <TaskInfoButton onClick={() => setIsOpen(true)} />
         </Tooltip>
         <TaskContent task={task} />
         <Tooltip content="Delete Task" id={`delete-task-${task.id}`}>
-          <DeleteButton onClick={handleDelete} />
+          <button
+            onClick={handleDelete}
+            className="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-100"
+            disabled={isPending}
+          >
+            <Trash2 size={16} />
+          </button>
         </Tooltip>
       </div>
 

@@ -6,14 +6,13 @@ import { useState, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import FilterPopover from "./ui/FilterPopover";
 import { useSearchParams } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 export default function TasksList({ tasks }: { tasks: Task[] }) {
   const [searchParams] = useSearchParams();
   const [filter, setFilter] = useState<"all" | "completed" | "pending">(
     (searchParams.get("status") as "all" | "completed" | "pending") || "all"
   );
-
-  console.log("🚀 > TasksList > filter ==> ", filter);
 
   const filteredTasks = useMemo(
     () =>
@@ -50,6 +49,7 @@ export default function TasksList({ tasks }: { tasks: Task[] }) {
           <TaskRow task={task} key={task.id} />
         ))}
       </ul>
+      <ToastContainer />
     </div>
   );
 }
