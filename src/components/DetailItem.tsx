@@ -1,3 +1,4 @@
+import { Pencil } from "lucide-react";
 import Tooltip from "./ui/Tooltip";
 
 type Option = {
@@ -37,8 +38,18 @@ export default function DetailItem({
   isEditable?: boolean;
 }) {
   return (
-    <div className="grid gap-2 w-full">
-      <h2 className="text-md font-semibold">{label}</h2>
+    <div className="grid gap-2  w-full">
+      <div className="flex items-center gap-2">
+        <h2 className="text-md font-semibold">{label}</h2>
+        {isEditable && !isEditing ? (
+          <button
+            onClick={onDoubleClick}
+            className="p-1 text-gray-600 rounded-full hover:bg-gray-100"
+          >
+            <Pencil size={14} />
+          </button>
+        ) : null}
+      </div>
       <div className="flex items-center gap-2 pl-2 w-full">
         {icon}
         {isEditing ? (
