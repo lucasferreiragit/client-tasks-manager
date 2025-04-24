@@ -68,7 +68,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
 
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 p-4">
-      <div className="grid gap-2">
+      <div className="grid gap-2 ">
         <DetailItem
           label="Title"
           value={formik.values.title}

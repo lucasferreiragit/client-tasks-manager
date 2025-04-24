@@ -94,7 +94,7 @@ export default function TaskRow({ task }: TaskRowProps) {
         </Tooltip>
       </div>
 
-      <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog size="lg" isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <TaskDetailsCard task={task} />
       </Dialog>
     </>

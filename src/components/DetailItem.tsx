@@ -1,3 +1,5 @@
+import Tooltip from "./ui/Tooltip";
+
 type Option = {
   value: string;
   label: string;
@@ -76,12 +78,14 @@ export default function DetailItem({
             />
           )
         ) : (
-          <p
-            className="text-gray-500 text-sm cursor-pointer"
-            onDoubleClick={onDoubleClick}
-          >
-            {value || "Enter " + label}
-          </p>
+          <Tooltip id={`tooltip-${name}`} content="Double click to edit">
+            <p
+              className="text-gray-500 text-sm cursor-pointer"
+              onDoubleClick={onDoubleClick}
+            >
+              {value || "Enter " + label}
+            </p>
+          </Tooltip>
         )}
       </div>
       {error && <p className="text-red-500 text-sm">{error}</p>}
