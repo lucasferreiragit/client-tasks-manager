@@ -14,10 +14,5 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div>
-      <h1>Home</h1>
-      <TasksList tasks={tasks as Task[]} />
-    </div>
-  );
+  return <TasksList tasks={tasks as Task[]} />;
 }

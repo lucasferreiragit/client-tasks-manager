@@ -2,20 +2,47 @@ import { useFormik } from "formik";
 import { twMerge } from "tailwind-merge";
 import { useCreateTask } from "../hooks/useTasks";
 import { useNavigate } from "react-router-dom";
+
 import {
   PRIORITY_OPTIONS,
   DEFAULT_TASK_FORM_VALUES,
 } from "../constants/taskConstants";
 import { taskValidationSchema } from "../constants/validationSchemas";
 
+const Label = ({
+  children,
+  htmlFor,
+  ...props
+}: {
+  children: React.ReactNode;
+  htmlFor: string;
+} & React.LabelHTMLAttributes<HTMLLabelElement>) => {
+  return (
+    <label
+      htmlFor={htmlFor}
+      className="text-md font-semibold cursor-pointer"
+      {...props}
+    >
+      {children}
+    </label>
+  );
+};
+
+const ErrorMessage = ({
+  error = "",
+  touched = false,
+}: {
+  error?: string;
+  touched?: boolean;
+}) => {
+  if (!touched || !error) return null;
+  return (
+    <span className="text-red-500 ml-2 text-sm min-h-[14px]">{error}</span>
+  );
+};
+
 export default function CreateNewTask() {
-  const {
-    mutate: createTask,
-    isPending,
-    error,
-    isSuccess,
-    data,
-  } = useCreateTask();
+  const { mutate: createTask, isPending, error, isSuccess } = useCreateTask();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: DEFAULT_TASK_FORM_VALUES,
@@ -26,55 +53,94 @@ export default function CreateNewTask() {
   });
 
   const disabled = formik.isSubmitting || !formik.isValid;
+
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
   if (isSuccess) {
-    // navigate to the new task
-    const newTask = data;
-    navigate(`/task/${newTask.id}`);
+    navigate(`/`);
   }
   return (
     <form
       className={twMerge(
-        "p-3 bg-gray-400/30 grid w-1/3 gap-4 rounded-md mx-auto min-h-[400px]",
+        "p-10 shadow-lg grid gap-4 rounded-md mx-auto lg:w-[45%] sm:w-[90%] min-h-[500px] bg-slate-200/50",
         isPending ? "opacity-50 cursor-not-allowed" : ""
       )}
       onSubmit={formik.handleSubmit}
     >
-      <label htmlFor="title">Title</label>
-      <input type="text" name="title" onChange={formik.handleChange} />
-      {formik.errors.title && (
-        <span className="text-red-500">{formik.errors.title}</span>
-      )}
-      <label htmlFor="description">Description</label>
-      <input type="text" name="description" onChange={formik.handleChange} />
-      {formik.errors.description && (
-        <span className="text-red-500">{formik.errors.description}</span>
-      )}
-      <label htmlFor="priority">Priority</label>
-      <select
-        name="priority"
-        onChange={formik.handleChange}
-        value={formik.values.priority}
-        className="border rounded p-2"
-      >
-        {Object.entries(PRIORITY_OPTIONS).map(([key, value]) => (
-          <option key={key} value={key}>
-            {value}
-          </option>
-        ))}
-      </select>
-      <button
-        type="submit"
-        className={twMerge(
-          "bg-blue-500 text-white p-2 rounded-md",
-          disabled ? "opacity-50 cursor-not-allowed" : ""
-        )}
-        disabled={disabled}
-      >
-        Create
-      </button>
+      <div className="grid gap-0.5">
+        <Label htmlFor="title-input">Title</Label>
+        <input
+          id="title-input"
+          type="text"
+          name="title"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={twMerge(
+            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2",
+            formik.touched.title && formik.errors.title
+              ? "outline-red-300 outline-1"
+              : ""
+          )}
+        />
+        <ErrorMessage
+          error={formik.errors.title}
+          touched={formik.touched.title}
+        />
+      </div>
+
+      <div className="grid">
+        <Label htmlFor="description-input">Description</Label>
+        <textarea
+          id="description-input"
+          name="description"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={twMerge(
+            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2",
+            formik.touched.description && formik.errors.description
+              ? "outline-red-300 outline-1"
+              : ""
+          )}
+        />
+        <ErrorMessage
+          error={formik.errors.description}
+          touched={formik.touched.description}
+        />
+      </div>
+
+      <div className="grid">
+        <Label htmlFor="priority-select">Priority</Label>
+        <select
+          id="priority-select"
+          className={twMerge(
+            "w-full p-2 pr-8 border rounded-md text-gray-500 text-sm bg-white ml-1"
+          )}
+          name="priority"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.priority}
+        >
+          {Object.entries(PRIORITY_OPTIONS).map(([key, value]) => (
+            <option key={key} value={key}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex items-end justify-centerw-[70%]">
+        <button
+          type="submit"
+          className={twMerge(
+            "bg-blue-500 text-white p-2 rounded-md max-h-[40px] flex-1",
+            disabled ? "opacity-50 cursor-not-allowed" : ""
+          )}
+          disabled={disabled}
+        >
+          Create
+        </button>
+      </div>
     </form>
   );
 }

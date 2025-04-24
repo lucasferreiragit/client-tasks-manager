@@ -7,6 +7,7 @@ import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
 import { useDeleteTask } from "../hooks/useTasks";
 import { toast } from "react-toastify";
+import Tooltip from "./ui/Tooltip";
 
 interface TaskRowProps {
   task: Task;
@@ -31,13 +32,27 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 const TaskContent = ({ task }: { task: Task }) => (
-  <div className="text-sm grid rounded-md py-4 gap-2 grid-cols-5 items-center px-4">
-    <div className="flex items-center gap-2">
-      <h2>{task.title}</h2>
-    </div>
-    <p className="text-ellipsis overflow-hidden text-nowrap">
-      {task.description}
-    </p>
+  <div className="text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
+    <Tooltip
+      content={task.description}
+      id={`task-title-${task.id}`}
+      delayShow={200}
+    >
+      <div className="flex items-center gap-2">
+        <h2 className="text-ellipsis overflow-hidden text-nowrap">
+          {task.title}
+        </h2>
+      </div>
+    </Tooltip>
+    <Tooltip
+      content={task.description}
+      id={`task-description-${task.id}`}
+      delayShow={200}
+    >
+      <p className="text-ellipsis overflow-hidden text-nowrap">
+        {task.description}
+      </p>
+    </Tooltip>
     <p className="text-center">
       <PriorityChip priority={task.priority} />
     </p>
@@ -51,7 +66,6 @@ const TaskContent = ({ task }: { task: Task }) => (
 );
 
 export default function TaskRow({ task }: TaskRowProps) {
-  console.log("🚀 > TaskRow > task ==> ", task);
   const [isOpen, setIsOpen] = useState(false);
   const { mutate: deleteTask } = useDeleteTask();
 
@@ -71,9 +85,13 @@ export default function TaskRow({ task }: TaskRowProps) {
   return (
     <>
       <div className="flex items-center gap-2 px-2 w-[90%] shadow-md rounded-md">
-        <TaskInfoButton onClick={() => setIsOpen(true)} />
+        <Tooltip content="View Details" id={`view-task-${task.id}`}>
+          <TaskInfoButton onClick={() => setIsOpen(true)} />
+        </Tooltip>
         <TaskContent task={task} />
-        <DeleteButton onClick={handleDelete} />
+        <Tooltip content="Delete Task" id={`delete-task-${task.id}`}>
+          <DeleteButton onClick={handleDelete} />
+        </Tooltip>
       </div>
 
       <Dialog isOpen={isOpen} onClose={() => setIsOpen(false)}>
