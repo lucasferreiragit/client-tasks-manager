@@ -1,21 +1,12 @@
 import { useFormik } from "formik";
 import { twMerge } from "tailwind-merge";
-import * as Yup from "yup";
 import { useCreateTask } from "../hooks/useTasks";
 import { useNavigate } from "react-router-dom";
 import {
   PRIORITY_OPTIONS,
   DEFAULT_TASK_FORM_VALUES,
 } from "../constants/taskConstants";
-
-const validationSchema = Yup.object().shape({
-  title: Yup.string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters"),
-  description: Yup.string()
-    .required("Description is required")
-    .min(6, "Description must be at least 6 characters"),
-});
+import { taskValidationSchema } from "../constants/validationSchemas";
 
 export default function CreateNewTask() {
   const {
@@ -28,7 +19,7 @@ export default function CreateNewTask() {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: DEFAULT_TASK_FORM_VALUES,
-    validationSchema,
+    validationSchema: taskValidationSchema,
     onSubmit: (values) => {
       createTask(values);
     },

@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
 import TasksList from "../components/TasksList";
 import { Task } from "../types";
 import { taskService } from "../api/taskService";
 import { useQuery } from "@tanstack/react-query";
+import { taskKeys } from "../hooks/useTasks";
 
 export default function Home() {
   const { data: tasks, isLoading } = useQuery({
-    queryKey: ["tasks"],
+    queryKey: taskKeys.lists(),
     queryFn: () => taskService.getTasks(),
   });
 
