@@ -18,7 +18,6 @@ const STATUS_OPTIONS = [
 ] as const;
 
 export default function TaskDetailsCard({ task }: { task: Task }) {
-  console.log("🚀 > TaskDetailsCard > task ==> ", task);
   const { mutate: updateTask, isPending, error, status } = useUpdateTask();
   const [editingField, setEditingField] = useState<string | null>(null);
 
@@ -38,7 +37,6 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
       });
     },
   });
-  console.log("🚀 > TaskDetailsCard > formik.values ==> ", formik.values);
 
   useEffect(() => {
     if (status === "error") {
@@ -67,7 +65,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4 p-4">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 p-4">
       <div className="grid gap-2 ">
         <DetailItem
           label="Title"
@@ -133,6 +131,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
           label="Created At"
           value={new Date(task.createdAt).toLocaleString()}
           icon={<Calendar className="w-4 h-4 text-gray-500" />}
+          isEditable={false}
         />
       </div>
       {hasChanges && (

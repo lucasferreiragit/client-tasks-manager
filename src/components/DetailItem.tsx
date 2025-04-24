@@ -17,6 +17,7 @@ export default function DetailItem({
   options,
   name,
   error,
+  isEditable = true,
 }: {
   label: string;
   value: React.ReactNode;
@@ -33,6 +34,7 @@ export default function DetailItem({
   options?: readonly Option[];
   name?: string;
   error?: string | false;
+  isEditable?: boolean;
 }) {
   return (
     <div className="grid gap-2 w-full">
@@ -77,7 +79,7 @@ export default function DetailItem({
               name={name}
             />
           )
-        ) : (
+        ) : isEditable ? (
           <Tooltip id={`tooltip-${name}`} content="Double click to edit">
             <p
               className="text-gray-500 text-sm cursor-pointer"
@@ -86,6 +88,8 @@ export default function DetailItem({
               {value || "Enter " + label}
             </p>
           </Tooltip>
+        ) : (
+          <p className="text-gray-500 text-sm">{value}</p>
         )}
       </div>
       {error && <p className="text-red-500 text-sm">{error}</p>}

@@ -107,7 +107,7 @@ export default function Layout({ children }: LayoutProps) {
       <footer className="bg-white border-t">
         <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-gray-500">
-            © {new Date().getFullYear()} Task Manager
+            © {new Date().getFullYear()} Task Manager - Lucas Ferreira
           </p>
         </div>
       </footer>

@@ -32,7 +32,7 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 const TaskContent = ({ task }: { task: Task }) => (
-  <div className="text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
+  <div className="flex-1 text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
     <Tooltip
       content={task.description}
       id={`task-title-${task.id}`}
@@ -49,7 +49,7 @@ const TaskContent = ({ task }: { task: Task }) => (
       id={`task-description-${task.id}`}
       delayShow={200}
     >
-      <p className="text-ellipsis overflow-hidden text-nowrap">
+      <p className="text-ellipsis overflow-hidden text-nowrap ">
         {task.description}
       </p>
     </Tooltip>
@@ -59,9 +59,7 @@ const TaskContent = ({ task }: { task: Task }) => (
     <p className="text-center">
       <StatusChip completed={task.completed} />
     </p>
-    <p className="text-center">
-      {new Date(task.createdAt).toLocaleDateString()}
-    </p>
+    <p className="text-end">{new Date(task.createdAt).toLocaleDateString()}</p>
   </div>
 );
 
@@ -84,7 +82,7 @@ export default function TaskRow({ task }: TaskRowProps) {
 
   return (
     <>
-      <div className="flex items-center gap-2 px-2 w-[90%] shadow-md rounded-md">
+      <div className="flex items-center gap-2 px-2 w-[90%]  bg-slate-50/50 shadow-md rounded-md">
         <Tooltip content="View Details" id={`view-task-${task.id}`}>
           <TaskInfoButton onClick={() => setIsOpen(true)} />
         </Tooltip>
