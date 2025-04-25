@@ -20,7 +20,7 @@ const Label = ({
   return (
     <label
       htmlFor={htmlFor}
-      className="text-md font-semibold cursor-pointer"
+      className="text-sm sm:text-md font-semibold cursor-pointer"
       {...props}
     >
       {children}
@@ -64,7 +64,7 @@ export default function CreateNewTaskForm() {
   return (
     <form
       className={twMerge(
-        "shadow-lg grid gap-4 rounded-md mx-auto lg:w-[45%] sm:w-[90%] min-h-[600px]  p-16 bg-neutral-50",
+        "shadow-lg grid gap-4 rounded-md mx-auto md:w-[45%] w-[90%] min-h-[600px] p-8 sm:p-16 bg-neutral-50",
         isPending ? "opacity-50 cursor-not-allowed" : ""
       )}
       onSubmit={formik.handleSubmit}
@@ -79,7 +79,7 @@ export default function CreateNewTaskForm() {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={twMerge(
-            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2 shadow-sm",
+            "w-full rounded-md text-gray-500 text-sm py-0 md:py-1 outline-none ml-1 px-2 shadow-sm",
             formik.touched.title && formik.errors.title
               ? "outline-red-300 outline-1"
               : ""
@@ -135,7 +135,7 @@ export default function CreateNewTaskForm() {
         <button
           type="submit"
           className={twMerge(
-            "bg-sky-500 text-white p-2 rounded-md max-h-[40px] flex-1",
+            "bg-sky-400 text-white p-2 rounded-md max-h-[40px] flex-1",
             disabled ? "opacity-50 cursor-not-allowed" : ""
           )}
           disabled={disabled}
