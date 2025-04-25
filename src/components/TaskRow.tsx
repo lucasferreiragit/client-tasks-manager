@@ -101,19 +101,19 @@ export default function TaskRow({ task }: TaskRowProps) {
               </p>
             </Tooltip>
           </div>
-          <p className="text-center">
+          <div className="text-center">
             <PriorityChip priority={task.priority} />
-          </p>
-          <p className="text-center sm:text-end">
+          </div>
+          <div className="text-center sm:text-end">
             <StatusChip
               completed={task.completed}
               onChange={handleStatusChange}
               isLoading={isUpdatePending}
             />
-          </p>
-          <p className="hidden sm:block text-end">
+          </div>
+          <div className="text-center sm:text-end">
             {new Date(task.createdAt).toLocaleDateString()}
-          </p>
+          </div>
         </div>
 
         <Tooltip content="Delete Task" id={`delete-task-${task.id}`}>
