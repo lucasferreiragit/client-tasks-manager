@@ -55,7 +55,7 @@ A modern task management application built with React and TypeScript, featuring 
 
 3. **Configure the API endpoint**
 
-   - The application expects a backend server to be running
+   - The application expects a backend server to be running ( see [Server app reference](https://github.com/lucasferreiragit/server-tasks-manager))
    - Update the API endpoint in the configuration files if needed
    - The default endpoint is set to `http://localhost:3000/api`
 
@@ -89,6 +89,7 @@ src/
 - `npm run build` - Builds the app for production
 
 ## Note on Backend Configuration
+[Server app reference](https://github.com/lucasferreiragit/server-tasks-manager)
 
 The application requires a backend server to function properly. The API endpoint configuration may need to be adjusted based on your server setup. Please ensure that:
 
