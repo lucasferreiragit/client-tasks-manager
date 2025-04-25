@@ -5,8 +5,8 @@ import { useState } from "react";
 import TaskDetailsCard from "./TaskDetailsCard";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
-import { useDeleteTask } from "../hooks/useTasks";
-import { toast, ToastContainer } from "react-toastify";
+import { useDeleteTask, useUpdateTask } from "../hooks/useTasks";
+import { toast } from "react-toastify";
 import Tooltip from "./ui/Tooltip";
 import { twMerge } from "tailwind-merge";
 import { Trash2 } from "lucide-react";
@@ -20,54 +20,14 @@ const TaskInfoButton = ({ onClick }: { onClick: () => void }) => (
     className="text-gray-500 p-2 hover:bg-gray-50 transition-all duration-200 rounded-full"
     onClick={onClick}
   >
-    <Info className="w-4 h-4" />
+    <Info className="w-5 h-5" />
   </button>
-);
-
-const TaskContent = ({
-  task,
-  setOpenDetails,
-}: {
-  task: Task;
-  setOpenDetails: (open: boolean) => void;
-}) => (
-  <div className="flex-1 text-xs md:text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
-    <Tooltip
-      content={task.description}
-      id={`task-title-${task.id}`}
-      delayShow={200}
-    >
-      <div
-        className="flex items-center gap-2 cursor-pointer"
-        onClick={() => setOpenDetails(true)}
-      >
-        <h2 className="text-ellipsis overflow-hidden text-nowrap">
-          {task.title}
-        </h2>
-      </div>
-    </Tooltip>
-    <Tooltip
-      content={task.description}
-      id={`task-description-${task.id}`}
-      delayShow={200}
-    >
-      <p className="text-ellipsis overflow-hidden text-nowrap ">
-        {task.description}
-      </p>
-    </Tooltip>
-    <p className="text-center">
-      <PriorityChip priority={task.priority} />
-    </p>
-    <p className="text-center">
-      <StatusChip completed={task.completed} />
-    </p>
-    <p className="text-end">{new Date(task.createdAt).toLocaleDateString()}</p>
-  </div>
 );
 
 export default function TaskRow({ task }: TaskRowProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate: deleteTask, isPending } = useDeleteTask();
+  const { mutate: deleteTask, isPending: isDeletePending } = useDeleteTask();
+  const { mutate: updateTask, isPending: isUpdatePending } = useUpdateTask();
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
@@ -82,22 +42,81 @@ export default function TaskRow({ task }: TaskRowProps) {
     }
   };
 
+  const handleStatusChange = (completed: boolean) => {
+    updateTask(
+      { ...task, completed },
+      {
+        onSuccess: () => {
+          toast.success(
+            `Task marked as ${completed ? "completed" : "pending"}`
+          );
+        },
+        onError: () => {
+          toast.error("Failed to update task status");
+        },
+      }
+    );
+  };
+
+  const isPending = isDeletePending || isUpdatePending;
+
   return (
     <>
       <div
         className={twMerge(
-          "flex items-center gap-2 px-2 w-[90%]  bg-slate-50/50 shadow-md rounded-md",
+          "flex items-center gap-2 px-2 w-[90%] bg-slate-50/50 shadow-md rounded-md ",
           isPending && "opacity-50"
         )}
       >
         <Tooltip content="View Details" id={`view-task-${task.id}`}>
           <TaskInfoButton onClick={() => setIsOpen(true)} />
         </Tooltip>
-        <TaskContent task={task} setOpenDetails={setIsOpen} />
+        {/* Main content row */}
+        <div className="flex-1 text-xs md:text-sm grid rounded-md py-4 gap-4 sm:gap-8 grid-cols-[100px_1fr_1fr] sm:grid-cols-5 items-center px-4 ">
+          <Tooltip
+            content={task.description}
+            id={`task-title-${task.id}`}
+            delayShow={200}
+          >
+            <div
+              className="flex items-center gap-2 cursor-pointer min-w-[100px]"
+              onClick={() => setIsOpen(true)}
+            >
+              <h2 className="text-ellipsis overflow-hidden text-nowrap">
+                {task.title}
+              </h2>
+            </div>
+          </Tooltip>
+          <div className="hidden sm:block ">
+            <Tooltip
+              content={task.description}
+              id={`task-description-${task.id}`}
+              delayShow={200}
+            >
+              <p className="text-ellipsis overflow-hidden text-nowrap">
+                {task.description}
+              </p>
+            </Tooltip>
+          </div>
+          <p className="text-center">
+            <PriorityChip priority={task.priority} />
+          </p>
+          <p className="text-center">
+            <StatusChip
+              completed={task.completed}
+              onChange={handleStatusChange}
+              isLoading={isUpdatePending}
+            />
+          </p>
+          <p className="hidden sm:block text-end">
+            {new Date(task.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+
         <Tooltip content="Delete Task" id={`delete-task-${task.id}`}>
           <button
             onClick={handleDelete}
-            className="p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-100"
+            className="hidden sm:block p-2 text-gray-400 hover:text-red-500 rounded-full hover:bg-gray-100"
             disabled={isPending}
           >
             <Trash2 size={16} />

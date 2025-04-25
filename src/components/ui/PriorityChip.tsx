@@ -4,10 +4,10 @@ import {
 } from "../../constants/taskConstants";
 import { twMerge } from "tailwind-merge";
 
-interface PriorityChipProps {
+type PriorityChipProps = {
   priority: string;
   className?: string;
-}
+};
 
 export function PriorityChip({ priority, className = "" }: PriorityChipProps) {
   const priorityLabel =
@@ -18,17 +18,22 @@ export function PriorityChip({ priority, className = "" }: PriorityChipProps) {
     PRIORITY_COLORS["4"];
 
   return (
-    <span
-      className={twMerge(
-        "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium",
-        className
-      )}
-      style={{
-        backgroundColor: colors.bg,
-        color: colors.text,
-      }}
+    <div
+      className={twMerge("flex justify-center items-center gap-1.5", className)}
     >
-      {priorityLabel}
-    </span>
+      <div
+        className="w-4 h-4 rounded-full"
+        style={{ backgroundColor: colors.bg }}
+      />
+      <span
+        className="hidden sm:inline text-xs font-medium px-2 py-1 rounded-full"
+        style={{
+          backgroundColor: colors.bg,
+          color: colors.text,
+        }}
+      >
+        {priorityLabel}
+      </span>
+    </div>
   );
 }

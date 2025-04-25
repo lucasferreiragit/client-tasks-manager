@@ -8,7 +8,7 @@ export default function TasksList({ tasks }: { tasks: Task[] }) {
   return (
     <div className="grid w-full gap-3 -4">
       <div className="mx-auto flex w-full bg-wite px-4 items-center ">
-        <div className="text-sm grid w-full rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
+        <div className="hidden text-sm sm:grid w-full rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
           {TASK_HEADERS.map((header) => (
             <h2
               key={header}
