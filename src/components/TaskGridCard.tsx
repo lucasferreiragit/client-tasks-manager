@@ -13,16 +13,21 @@ export default function TaskGridCard({ task }: { task: Task }) {
   return (
     <>
       <div
+        className="flex flex-col gap-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
         onClick={() => setIsOpen(true)}
-        className="flex flex-col gap-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-50 transition-colors cursor-pointer"
       >
         <div className="flex items-start justify-between gap-2">
-          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 cursor-pointer">
             {task.title}
           </h3>
-          <StatusChip completed={task.completed} />
+          <div onClick={(e) => e.stopPropagation()}>
+            <StatusChip completed={task.completed} />
+          </div>
         </div>
-        <p className="text-sm text-gray-600 line-clamp-3 flex-1">
+        <p
+          className="text-sm text-gray-600 line-clamp-3 flex-1 cursor-pointer"
+          onClick={() => setIsOpen(true)}
+        >
           {task.description}
         </p>
         <div className="flex items-center justify-between">

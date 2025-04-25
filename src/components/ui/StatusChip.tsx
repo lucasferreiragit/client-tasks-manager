@@ -50,7 +50,7 @@ export function StatusChip({
   return (
     <div
       className={twMerge(
-        "inline-flex gap-0.5 sm:gap-1 items-center px-1 sm:px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200 hover:opacity-80 relative",
+        "inline-flex gap-0.5 sm:gap-1 items-center px-1 sm:px-2 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200 hover:opacity-80 ",
         className
       )}
       style={{
