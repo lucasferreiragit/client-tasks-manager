@@ -14,14 +14,25 @@ export default function TasksBoard({ tasks }: { tasks: Task[] }) {
     (searchParams.get("status") as "all" | "completed" | "pending") || "all"
   );
 
+  const priorities = useMemo(
+    () => searchParams.get("priority")?.split(",").filter(Boolean) || [],
+    [searchParams]
+  );
+
   const filteredTasks = useMemo(
     () =>
-      tasks.filter((task) => {
-        if (filter === "all") return true;
-        if (filter === "completed") return task.completed;
-        return !task.completed;
-      }),
-    [tasks, filter]
+      tasks
+        .filter((task) => {
+          if (filter === "all") return true;
+          if (filter === "completed") return task.completed;
+          if (filter === "pending") return !task.completed;
+          return true;
+        })
+        .filter((task) => {
+          if (priorities.length === 0) return true;
+          return priorities.includes(task.priority);
+        }),
+    [tasks, filter, priorities]
   );
 
   return (
@@ -30,7 +41,11 @@ export default function TasksBoard({ tasks }: { tasks: Task[] }) {
         <h1 className="text-2xl font-bold">Tasks Board</h1>
         <div className="flex items-center gap-4 ">
           <ViewSwitcher currentView={view} onViewChange={setView} />
-          <FilterPopover onFilterChange={setFilter} currentFilter={filter} />
+          <FilterPopover
+            onFilterChange={setFilter}
+            currentFilter={filter}
+            currentPriority={priorities}
+          />
         </div>
       </div>
       {view === "list" ? (
