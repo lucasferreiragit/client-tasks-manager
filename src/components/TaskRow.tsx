@@ -1,7 +1,7 @@
 import { Info } from "lucide-react";
 import { Task } from "../types";
 import Dialog from "./Dialog";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import TaskDetailsCard from "./TaskDetailsCard";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
@@ -42,21 +42,24 @@ export default function TaskRow({ task }: TaskRowProps) {
     }
   };
 
-  const handleStatusChange = (completed: boolean) => {
-    updateTask(
-      { ...task, completed },
-      {
-        onSuccess: () => {
-          toast.success(
-            `Task marked as ${completed ? "completed" : "pending"}`
-          );
-        },
-        onError: () => {
-          toast.error("Failed to update task status");
-        },
-      }
-    );
-  };
+  const handleStatusChange = useCallback(
+    (completed: boolean) => {
+      updateTask(
+        { ...task, completed },
+        {
+          onSuccess: () => {
+            toast.success(
+              `Task marked as ${completed ? "completed" : "pending"}`
+            );
+          },
+          onError: () => {
+            toast.error("Failed to update task status");
+          },
+        }
+      );
+    },
+    [task, updateTask]
+  );
 
   const isPending = isDeletePending || isUpdatePending;
 

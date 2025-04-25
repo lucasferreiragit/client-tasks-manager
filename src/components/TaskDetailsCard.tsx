@@ -169,13 +169,13 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
         <button
           type="button"
           onClick={handleDelete}
-          disabled={isPending}
+          disabled={isDeletePending || isPending}
           className={twMerge(
             "px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500",
-            isPending && "opacity-50 cursor-not-allowed"
+            isDeletePending || isPending ? "opacity-50 cursor-not-allowed" : ""
           )}
         >
-          {isPending ? (
+          {isDeletePending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
             <Trash2 size={20} />
@@ -184,13 +184,15 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
         {hasChanges && (
           <button
             type="submit"
-            disabled={isPending || !formik.isValid}
+            disabled={isPending || !formik.isValid || isDeletePending}
             className={twMerge(
               "px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500",
-              (isPending || !formik.isValid) && "opacity-50 cursor-not-allowed"
+              isPending || !formik.isValid
+                ? "opacity-50 cursor-not-allowed"
+                : ""
             )}
           >
-            {isPending ? "Saving..." : "Save Changes"}
+            {isPending && !isDeletePending ? "Saving..." : "Save Changes"}
           </button>
         )}
       </div>
