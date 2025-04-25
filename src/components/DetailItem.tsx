@@ -1,4 +1,5 @@
 import { Pencil } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 import { Option } from "../types";
 import InputField from "./InputField";
@@ -22,6 +23,7 @@ interface DetailItemProps {
   error?: string | false;
   isEditable?: boolean;
   rawValue?: string;
+  className?: string;
 }
 
 interface InputProps {
@@ -57,9 +59,10 @@ export default function DetailItem({
   error,
   isEditable = true,
   rawValue,
+  className = "",
 }: DetailItemProps) {
   return (
-    <div className="grid gap-2 w-full">
+    <div className={twMerge("grid gap-2 w-full", className)}>
       <div className="flex items-center gap-1">
         <h2 className="text-md font-semibold">{label}</h2>
         {isEditable && !isEditing && <EditButton onClick={onDoubleClick} />}

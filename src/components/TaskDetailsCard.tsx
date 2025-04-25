@@ -1,4 +1,4 @@
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2, Trash2 } from "lucide-react";
 import { Task } from "../types";
 import Divider from "./ui/Divider";
 import { toast } from "react-toastify";
@@ -7,10 +7,11 @@ import { StatusChip } from "./ui/StatusChip";
 import { useState } from "react";
 import { PRIORITY_OPTIONS } from "../constants/taskConstants";
 import DetailItem from "./DetailItem";
-import { useUpdateTask } from "../hooks/useTasks";
+import { useUpdateTask, useDeleteTask } from "../hooks/useTasks";
 import { twMerge } from "tailwind-merge";
 import { useFormik } from "formik";
 import { taskValidationSchema } from "../constants/validationSchemas";
+import { useNavigate } from "react-router-dom";
 
 const STATUS_OPTIONS = [
   { value: "false", label: "Pending" },
@@ -18,8 +19,12 @@ const STATUS_OPTIONS = [
 ] as const;
 
 export default function TaskDetailsCard({ task }: { task: Task }) {
-  const { mutate: updateTask, isPending, status } = useUpdateTask();
+  const navigate = useNavigate();
+  const { mutate: updateTask, isPending: isUpdatePending } = useUpdateTask();
+  const { mutate: deleteTask, isPending: isDeletePending } = useDeleteTask();
   const [editingField, setEditingField] = useState<string | null>(null);
+
+  const isPending = isUpdatePending || isDeletePending;
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +53,20 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
     },
   });
 
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      deleteTask(task.id, {
+        onSuccess: () => {
+          toast.success("Task deleted successfully");
+          navigate("/");
+        },
+        onError: () => {
+          toast.error("Failed to delete task");
+        },
+      });
+    }
+  };
+
   const hasChanges =
     formik.values.title !== task.title ||
     formik.values.description !== task.description ||
@@ -63,7 +82,10 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 p-4 ">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="flex flex-col gap-6 p-4 relative"
+    >
       <div className="grid gap-2 ">
         <DetailItem
           label="Title"
@@ -113,7 +135,12 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
       <div className="grid gap-2">
         <DetailItem
           label="Status"
-          value={<StatusChip completed={formik.values.completed === "true"} />}
+          value={
+            <StatusChip
+              completed={formik.values.completed === "true"}
+              readonly
+            />
+          }
           isEditing={editingField === "completed"}
           onDoubleClick={handleDoubleClick("completed")}
           onBlur={handleBlur}
@@ -125,7 +152,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
         />
         <Divider />
       </div>
-      <div className="grid gap-2 ">
+      <div className="grid gap-2">
         <DetailItem label="Id" value={task.id} isEditable={false} />
         <Divider />
       </div>
@@ -138,8 +165,23 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
           isEditable={false}
         />
       </div>
-      {hasChanges && (
-        <div className="flex justify-end mt-4">
+      <div className="flex justify-between gap-2 mt-4">
+        <button
+          type="button"
+          onClick={handleDelete}
+          disabled={isPending}
+          className={twMerge(
+            "px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500",
+            isPending && "opacity-50 cursor-not-allowed"
+          )}
+        >
+          {isPending ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Trash2 size={20} />
+          )}
+        </button>
+        {hasChanges && (
           <button
             type="submit"
             disabled={isPending || !formik.isValid}
@@ -150,8 +192,8 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
           >
             {isPending ? "Saving..." : "Save Changes"}
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </form>
   );
 }
