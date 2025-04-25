@@ -2,7 +2,7 @@ import { twMerge } from "tailwind-merge";
 import { Clock, CheckCircle2, Loader2, ChevronDown } from "lucide-react";
 
 interface StatusChipProps {
-  completed: boolean;
+  completed: "true" | "false";
   className?: string;
   onChange?: (completed: boolean) => void;
   isLoading?: boolean;
@@ -16,7 +16,7 @@ export function StatusChip({
   isLoading = false,
   readonly = false,
 }: StatusChipProps) {
-  const status = completed ? "Completed" : "Pending";
+  const status = completed === "true" ? "Completed" : "Pending";
 
   const bgColor = completed ? "#F0FDF4" : "#F3F4F6";
   const textColor = completed ? "#15803D" : "#4B5563";

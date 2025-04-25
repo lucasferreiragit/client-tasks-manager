@@ -20,7 +20,7 @@ export default function TaskGridCard({ task }: { task: Task }) {
             {task.title}
           </h3>
           <div onClick={(e) => e.stopPropagation()}>
-            <StatusChip completed={task.completed} />
+            <StatusChip completed={task.completed ? "true" : "false"} />
           </div>
         </div>
         <p

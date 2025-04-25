@@ -106,7 +106,7 @@ export default function TaskRow({ task }: TaskRowProps) {
           </div>
           <div className="text-center sm:text-end">
             <StatusChip
-              completed={task.completed}
+              completed={task.completed ? "true" : "false"}
               onChange={handleStatusChange}
               isLoading={isUpdatePending}
             />

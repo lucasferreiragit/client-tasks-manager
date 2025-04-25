@@ -137,9 +137,10 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
       <div className="grid gap-2">
         <DetailItem
           label="Status"
+          rawValue={formik.values.completed}
           value={
             <StatusChip
-              completed={formik.values.completed === "true"}
+              completed={formik.values.completed as "true" | "false"}
               readonly
             />
           }
