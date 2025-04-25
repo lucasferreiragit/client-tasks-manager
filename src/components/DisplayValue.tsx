@@ -13,12 +13,12 @@ export default function DisplayValue({
 }) {
   return (
     <Tooltip id={`tooltip-${name}`} content="Double click to edit">
-      <p
+      <div
         className="text-gray-500 text-sm cursor-pointer"
         onDoubleClick={onDoubleClick}
       >
         {value || `Enter ${label}`}
-      </p>
+      </div>
     </Tooltip>
   );
 }

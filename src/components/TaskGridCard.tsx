@@ -1,5 +1,4 @@
 import { Task } from "../types";
-import { twMerge } from "tailwind-merge";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
 import { Calendar } from "lucide-react";
