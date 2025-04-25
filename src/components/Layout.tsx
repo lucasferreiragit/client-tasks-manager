@@ -28,8 +28,13 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center px-4 lg:px-0">
             <Link
               to="/"
-              className="text-xl font-bold text-gray-800 hover:text-gray-600 transition-colors"
+              className="flex items-center gap-2 text-xl font-bold text-gray-800 hover:text-gray-600 transition-colors"
             >
+              <img
+                src="/task-logo.png"
+                alt="Task Manager Logo"
+                className="h-6 w-6"
+              />
               Task Manager
             </Link>
           </div>
