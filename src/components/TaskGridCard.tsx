@@ -1,13 +1,31 @@
 import { Task } from "../types";
+
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
 import { Calendar } from "lucide-react";
 import { useState } from "react";
 import Dialog from "./Dialog";
 import TaskDetailsCard from "./TaskDetailsCard";
+import { useUpdateTask } from "../hooks/useTasks";
+import { toast } from "react-toastify";
 
 export default function TaskGridCard({ task }: { task: Task }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { mutate: updateTask, isPending: isUpdatePending } = useUpdateTask();
+
+  const handleStatusChange = (completed: boolean) => {
+    updateTask(
+      { ...task, completed },
+      {
+        onSuccess: () => {
+          toast.success("Task status updated successfully");
+        },
+        onError: () => {
+          toast.error("Failed to update task status");
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -20,7 +38,11 @@ export default function TaskGridCard({ task }: { task: Task }) {
             {task.title}
           </h3>
           <div onClick={(e) => e.stopPropagation()}>
-            <StatusChip completed={task.completed ? "true" : "false"} />
+            <StatusChip
+              completed={task.completed ? "true" : "false"}
+              onChange={handleStatusChange}
+              isLoading={isUpdatePending}
+            />
           </div>
         </div>
         <p
