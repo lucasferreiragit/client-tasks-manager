@@ -22,10 +22,10 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col bg-sky-100/70">
       <nav className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="flex justify-between h-16 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center">
+        <div className="flex justify-between h-16 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="flex items-center px-4 lg:px-0">
             <Link
               to="/"
               className="text-xl font-bold text-gray-800 hover:text-gray-600 transition-colors"
@@ -34,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
           </div>
 
-          <div className="hidden sm:flex sm:items-center sm:space-x-8">
+          <div className="sm:flex sm:items-center sm:space-x-8 hidden">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
@@ -64,7 +64,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="sm:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none"
+              className="p-2 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none px-4"
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -76,7 +76,7 @@ export default function Layout({ children }: LayoutProps) {
         </div>
 
         {isMobileMenuOpen ? (
-          <div className="sm:hidden">
+          <div className="sm:hidden ">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navLinks.map((link) => {
                 const Icon = link.icon;

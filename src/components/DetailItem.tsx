@@ -38,15 +38,15 @@ export default function DetailItem({
   isEditable?: boolean;
 }) {
   return (
-    <div className="grid gap-2  w-full">
-      <div className="flex items-center gap-2">
+    <div className="grid gap-2 w-full">
+      <div className="flex items-center gap-1">
         <h2 className="text-md font-semibold">{label}</h2>
         {isEditable && !isEditing ? (
           <button
             onClick={onDoubleClick}
-            className="p-1 text-gray-600 rounded-full hover:bg-gray-100"
+            className="p-1 pb-1.5 text-gray-600 rounded-full hover:bg-gray-100 "
           >
-            <Pencil size={14} />
+            <Pencil size={12} />
           </button>
         ) : null}
       </div>

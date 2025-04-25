@@ -18,7 +18,6 @@ const sizeClasses = {
 export default function Dialog({
   isOpen,
   onClose,
-  title,
   children,
   size = "md",
 }: DialogProps) {
@@ -44,7 +43,7 @@ export default function Dialog({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 "
+      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 "
       onClick={handleBackdropClick}
     >
       <div
@@ -53,13 +52,15 @@ export default function Dialog({
       >
         <button
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700 absolute top-2 right-2"
+          className="text-gray-500 p-3 hover:text-gray-700 absolute top-2 right-2"
           aria-label="Close dialog"
         >
           <X className="w-6 h-6" />
         </button>
 
-        <div className="p-4 overflow-y-auto max-h-[80vh]">{children}</div>
+        <div className="p-4 overflow-y-auto max-h-[80vh] bg-sky-100/10 rounded-md">
+          {children}
+        </div>
       </div>
     </div>
   );

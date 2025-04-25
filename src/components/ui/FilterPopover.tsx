@@ -54,7 +54,7 @@ export default function FilterPopover({
               className={twMerge(
                 "w-full px-3 py-1.5 text-sm text-left",
                 currentFilter === option.value
-                  ? "bg-blue-50 text-blue-600"
+                  ? "bg-sky-50 font-semibold"
                   : "hover:bg-gray-50 text-gray-600"
               )}
               onClick={() => handleFilterChange(option.value)}

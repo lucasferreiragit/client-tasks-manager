@@ -1,7 +1,7 @@
 import { Calendar } from "lucide-react";
 import { Task } from "../types";
 import Divider from "./ui/Divider";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
 import { useState, useEffect } from "react";
@@ -18,7 +18,7 @@ const STATUS_OPTIONS = [
 ] as const;
 
 export default function TaskDetailsCard({ task }: { task: Task }) {
-  const { mutate: updateTask, isPending, error, status } = useUpdateTask();
+  const { mutate: updateTask, isPending, status } = useUpdateTask();
   const [editingField, setEditingField] = useState<string | null>(null);
 
   const formik = useFormik({
@@ -30,23 +30,23 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
     },
     validationSchema: taskValidationSchema,
     onSubmit: (values) => {
-      updateTask({
-        ...task,
-        ...values,
-        completed: values.completed === "true" ? true : false,
-      });
+      updateTask(
+        {
+          ...task,
+          ...values,
+          completed: values.completed === "true" ? true : false,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Task updated successfully");
+          },
+          onError: () => {
+            toast.error("Failed to update task");
+          },
+        }
+      );
     },
   });
-
-  useEffect(() => {
-    if (status === "error") {
-      toast.error("Failed to update task");
-    }
-    if (status === "success") {
-      setEditingField(null);
-      toast.success("Task updated successfully");
-    }
-  }, [status]);
 
   const hasChanges =
     formik.values.title !== task.title ||
@@ -65,7 +65,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 p-4">
+    <form onSubmit={formik.handleSubmit} className="flex flex-col gap-6 p-4 ">
       <div className="grid gap-2 ">
         <DetailItem
           label="Title"

@@ -25,7 +25,7 @@ const TaskInfoButton = ({ onClick }: { onClick: () => void }) => (
 );
 
 const TaskContent = ({ task }: { task: Task }) => (
-  <div className="flex-1 text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
+  <div className="flex-1 text-xs md:text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
     <Tooltip
       content={task.description}
       id={`task-title-${task.id}`}

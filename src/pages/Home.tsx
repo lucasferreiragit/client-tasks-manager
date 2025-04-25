@@ -2,16 +2,23 @@ import TasksList from "../components/TasksList";
 import { Task } from "../types";
 import { taskService } from "../api/taskService";
 import { useQuery } from "@tanstack/react-query";
-import { taskKeys } from "../hooks/useTasks";
+import { taskKeys, useTasks } from "../hooks/useTasks";
+import { TasksListSkeleton } from "../components/ui/TaskSkeleton";
+import ErrorTemplate from "../components/ui/ErrorTemplate";
 
 export default function Home() {
-  const { data: tasks, isLoading } = useQuery({
-    queryKey: taskKeys.lists(),
-    queryFn: () => taskService.getTasks(),
-  });
+  const { data: tasks, isLoading, error } = useTasks();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <TasksListSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <ErrorTemplate message="Failed to load tasks" className="my-4" />
+      </div>
+    );
   }
 
   return <TasksList tasks={tasks as Task[]} />;

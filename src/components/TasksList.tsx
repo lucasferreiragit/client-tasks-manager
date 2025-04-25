@@ -6,7 +6,6 @@ import { useState, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 import FilterPopover from "./ui/FilterPopover";
 import { useSearchParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
 export default function TasksList({ tasks }: { tasks: Task[] }) {
   const [searchParams] = useSearchParams();
@@ -26,13 +25,13 @@ export default function TasksList({ tasks }: { tasks: Task[] }) {
 
   return (
     <div className="grid w-full gap-3 py-4">
-      <div className="mx-auto flex flex-grow w-[90%] bg-white items-center">
+      <div className="mx-auto flex flex-grow w-[90%] bg-white items-center ">
         <div className="text-sm grid w-full rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
           {TASK_HEADERS.map((header) => (
             <h2
               key={header}
               className={twMerge(
-                "text-sm font-semibold text-gray-700 text-center"
+                "text-xs md:text-sm font-semibold text-gray-700 text-center"
               )}
             >
               {header}
@@ -49,7 +48,6 @@ export default function TasksList({ tasks }: { tasks: Task[] }) {
           <TaskRow task={task} key={task.id} />
         ))}
       </ul>
-      <ToastContainer />
     </div>
   );
 }

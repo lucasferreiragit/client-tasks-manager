@@ -41,7 +41,7 @@ const ErrorMessage = ({
   );
 };
 
-export default function CreateNewTask() {
+export default function CreateNewTaskForm() {
   const { mutate: createTask, isPending, error, isSuccess } = useCreateTask();
   const navigate = useNavigate();
   const formik = useFormik({
@@ -64,7 +64,7 @@ export default function CreateNewTask() {
   return (
     <form
       className={twMerge(
-        "p-10 shadow-lg grid gap-4 rounded-md mx-auto lg:w-[45%] sm:w-[90%] min-h-[500px] bg-slate-200/50",
+        "shadow-lg grid gap-4 rounded-md mx-auto lg:w-[45%] sm:w-[90%] min-h-[600px]  p-16 bg-neutral-50",
         isPending ? "opacity-50 cursor-not-allowed" : ""
       )}
       onSubmit={formik.handleSubmit}
@@ -75,10 +75,11 @@ export default function CreateNewTask() {
           id="title-input"
           type="text"
           name="title"
+          placeholder="Enter a title"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={twMerge(
-            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2",
+            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2 shadow-sm",
             formik.touched.title && formik.errors.title
               ? "outline-red-300 outline-1"
               : ""
@@ -95,10 +96,11 @@ export default function CreateNewTask() {
         <textarea
           id="description-input"
           name="description"
+          placeholder="Describe your task"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           className={twMerge(
-            "w-full rounded-md text-gray-500 text-sm py-1 outline-none ml-1 px-2",
+            "w-full rounded-md text-gray-500 text-sm py-1 outline-none shadow-sm ml-1 px-2",
             formik.touched.description && formik.errors.description
               ? "outline-red-300 outline-1"
               : ""
@@ -110,12 +112,12 @@ export default function CreateNewTask() {
         />
       </div>
 
-      <div className="grid">
+      <div className="grid ">
         <Label htmlFor="priority-select">Priority</Label>
         <select
           id="priority-select"
           className={twMerge(
-            "w-full p-2 pr-8 border rounded-md text-gray-500 text-sm bg-white ml-1"
+            "w-full rounded-md text-gray-500 text-sm bg-white ml-1"
           )}
           name="priority"
           onChange={formik.handleChange}
@@ -133,7 +135,7 @@ export default function CreateNewTask() {
         <button
           type="submit"
           className={twMerge(
-            "bg-blue-500 text-white p-2 rounded-md max-h-[40px] flex-1",
+            "bg-sky-500 text-white p-2 rounded-md max-h-[40px] flex-1",
             disabled ? "opacity-50 cursor-not-allowed" : ""
           )}
           disabled={disabled}
