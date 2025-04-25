@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { taskKeys, useTasks } from "../hooks/useTasks";
 import { TasksListSkeleton } from "../components/ui/TaskSkeleton";
 import ErrorTemplate from "../components/ui/ErrorTemplate";
+import TasksBoard from "../components/TasksBoard";
 
 export default function Home() {
   const { data: tasks, isLoading, error } = useTasks();
@@ -21,5 +22,5 @@ export default function Home() {
     );
   }
 
-  return <TasksList tasks={tasks as Task[]} />;
+  return <TasksBoard tasks={tasks as Task[]} />;
 }

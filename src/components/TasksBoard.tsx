@@ -1,0 +1,46 @@
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Task } from "../types";
+
+import FilterPopover from "./ui/FilterPopover";
+import ViewSwitcher from "./ui/ViewSwitcher";
+import TasksList from "./TasksList";
+
+export default function TasksBoard({ tasks }: { tasks: Task[] }) {
+  const [view, setView] = useState<"list" | "grid">("list");
+  const [searchParams] = useSearchParams();
+  const [filter, setFilter] = useState<"all" | "completed" | "pending">(
+    (searchParams.get("status") as "all" | "completed" | "pending") || "all"
+  );
+
+  const filteredTasks = useMemo(
+    () =>
+      tasks.filter((task) => {
+        if (filter === "all") return true;
+        if (filter === "completed") return task.completed;
+        return !task.completed;
+      }),
+    [tasks, filter]
+  );
+
+  return (
+    <div className="grid w-full gap-3 py-4">
+      <div className="mx-auto flex flex-grow w-[90%] items-center justify-between p-4">
+        <h1 className="text-2xl font-bold">Tasks Board</h1>
+        <div className="flex items-center gap-4 ">
+          <ViewSwitcher currentView={view} onViewChange={setView} />
+          <FilterPopover onFilterChange={setFilter} currentFilter={filter} />
+        </div>
+      </div>
+      {view === "list" ? (
+        <TasksList tasks={filteredTasks} />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-full ">
+          {/* Grid view will be implemented later */}
+          <div className="text-center text-gray-500">Grid view coming soon</div>
+        </div>
+      )}
+    </div>
+  );
+}
