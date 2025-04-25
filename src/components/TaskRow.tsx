@@ -111,7 +111,7 @@ export default function TaskRow({ task }: TaskRowProps) {
               isLoading={isUpdatePending}
             />
           </div>
-          <div className="text-center sm:text-end">
+          <div className="hidden sm:block text-center sm:text-end">
             {new Date(task.createdAt).toLocaleDateString()}
           </div>
         </div>
