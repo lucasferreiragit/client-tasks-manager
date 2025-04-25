@@ -52,7 +52,7 @@ export default function Dialog({
       >
         <button
           onClick={onClose}
-          className="text-gray-500 p-3 hover:text-gray-700 absolute top-2 right-2"
+          className="text-gray-500 p-3 hover:text-gray-700 absolute top-2 right-2 z-50"
           aria-label="Close dialog"
         >
           <X className="w-6 h-6" />
