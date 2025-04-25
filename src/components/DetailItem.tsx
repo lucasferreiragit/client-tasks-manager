@@ -26,16 +26,6 @@ interface DetailItemProps {
   className?: string;
 }
 
-interface InputProps {
-  type: "text" | "select" | "input";
-  value: string;
-  onChange?: DetailItemProps["onChange"];
-  onBlur?: DetailItemProps["onBlur"];
-  name?: string;
-  options?: readonly Option[];
-  label: string;
-}
-
 const EditButton = ({ onClick }: { onClick?: () => void }) => (
   <button
     onClick={onClick}
