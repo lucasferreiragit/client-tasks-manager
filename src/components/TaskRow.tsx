@@ -101,7 +101,7 @@ export default function TaskRow({ task }: TaskRowProps) {
           <p className="text-center">
             <PriorityChip priority={task.priority} />
           </p>
-          <p className="text-center">
+          <p className="text-center sm:text-end">
             <StatusChip
               completed={task.completed}
               onChange={handleStatusChange}

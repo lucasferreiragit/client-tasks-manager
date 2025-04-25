@@ -22,7 +22,7 @@ export function PriorityChip({ priority, className = "" }: PriorityChipProps) {
       className={twMerge("flex justify-center items-center gap-1.5", className)}
     >
       <div
-        className="w-4 h-4 rounded-full"
+        className="sm:hidden w-4 h-4 rounded-full"
         style={{ backgroundColor: colors.bg }}
       />
       <span
