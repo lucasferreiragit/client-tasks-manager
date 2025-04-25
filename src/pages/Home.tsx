@@ -1,8 +1,5 @@
-import TasksList from "../components/TasksList";
 import { Task } from "../types";
-import { taskService } from "../api/taskService";
-import { useQuery } from "@tanstack/react-query";
-import { taskKeys, useTasks } from "../hooks/useTasks";
+import { useTasks } from "../hooks/useTasks";
 import { TasksListSkeleton } from "../components/ui/TaskSkeleton";
 import ErrorTemplate from "../components/ui/ErrorTemplate";
 import TasksBoard from "../components/TasksBoard";

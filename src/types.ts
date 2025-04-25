@@ -7,3 +7,8 @@ export interface Task {
   createdAt: string;
   updatedAt: string;
 }
+
+export type Option = {
+  value: string;
+  label: string;
+};

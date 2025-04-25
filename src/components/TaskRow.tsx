@@ -74,11 +74,9 @@ export default function TaskRow({ task }: TaskRowProps) {
       deleteTask(task.id, {
         onSuccess: () => {
           toast.success("Task deleted successfully");
-          console.log("Task deleted successfully");
         },
         onError: () => {
           toast.error("Failed to delete task");
-          console.log("Failed to delete task");
         },
       });
     }

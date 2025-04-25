@@ -54,8 +54,6 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
     formik.values.priority !== task.priority ||
     formik.values.completed !== String(task.completed);
 
-  console.log(formik.values);
-
   const handleDoubleClick = (field: string) => () => {
     setEditingField(field);
   };
@@ -96,6 +94,7 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
       <div className="grid gap-2">
         <DetailItem
           label="Priority"
+          rawValue={formik.values.priority}
           value={<PriorityChip priority={formik.values.priority} />}
           isEditing={editingField === "priority"}
           onDoubleClick={handleDoubleClick("priority")}
