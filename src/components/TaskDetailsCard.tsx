@@ -4,7 +4,7 @@ import Divider from "./ui/Divider";
 import { toast } from "react-toastify";
 import { PriorityChip } from "./ui/PriorityChip";
 import { StatusChip } from "./ui/StatusChip";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PRIORITY_OPTIONS } from "../constants/taskConstants";
 import DetailItem from "./DetailItem";
 import { useUpdateTask } from "../hooks/useTasks";

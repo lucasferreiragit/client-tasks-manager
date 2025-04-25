@@ -1,7 +1,7 @@
 import { Filter, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Popover } from "./Popover";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { PRIORITY_OPTIONS } from "../../constants/taskConstants";
 
@@ -42,14 +42,6 @@ export default function FilterPopover({
 }: FilterPopoverProps) {
   const [, setSearchParams] = useSearchParams();
 
-  const selectedPrioritiesLabels = useMemo(
-    () =>
-      currentPriority
-        .map((p) => PRIORITY_OPTIONS[p as keyof typeof PRIORITY_OPTIONS])
-        .join(", "),
-    [currentPriority]
-  );
-
   const updateSearchParams = useCallback(
     (updates: { status?: string; priority?: string | null }) => {
       setSearchParams((params) => {
@@ -69,13 +61,22 @@ export default function FilterPopover({
     [setSearchParams]
   );
 
+  const closePopover = useCallback(() => {
+    const clickEvent = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    document.dispatchEvent(clickEvent);
+  }, []);
+
   const handleFilterChange = useCallback(
     (value: "all" | "completed" | "pending") => {
       onFilterChange(value);
       updateSearchParams({ status: value });
       closePopover();
     },
-    [onFilterChange, updateSearchParams]
+    [onFilterChange, updateSearchParams, closePopover]
   );
 
   const handlePriorityChange = useCallback(
@@ -89,21 +90,12 @@ export default function FilterPopover({
       });
       closePopover();
     },
-    [currentPriority, updateSearchParams]
+    [currentPriority, updateSearchParams, closePopover]
   );
 
   const handleClearPriorities = useCallback(() => {
     updateSearchParams({ priority: null });
   }, [updateSearchParams]);
-
-  const closePopover = useCallback(() => {
-    const clickEvent = new MouseEvent("mousedown", {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-    document.dispatchEvent(clickEvent);
-  }, []);
 
   return (
     <Popover

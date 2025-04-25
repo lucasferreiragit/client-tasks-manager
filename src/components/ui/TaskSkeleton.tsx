@@ -1,5 +1,3 @@
-import { twMerge } from "tailwind-merge";
-
 export default function TaskSkeleton() {
   return (
     <div className="flex items-center gap-2 px-2 w-[90%] bg-slate-50/50 shadow-md rounded-md">
