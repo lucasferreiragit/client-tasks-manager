@@ -33,7 +33,7 @@ export function StatusChip({
     return (
       <div
         className={twMerge(
-          "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium",
+          "inline-flex items-center px-2 gap-x-1 py-1 rounded-full text-xs font-medium",
           className
         )}
         style={{
