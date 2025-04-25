@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import { Clock, CheckCircle2, Loader2, ChevronDown } from "lucide-react";
+import { Clock, CheckCircle2, Loader2 } from "lucide-react";
 
 interface StatusChipProps {
   completed: "true" | "false";
@@ -50,7 +50,7 @@ export function StatusChip({
   return (
     <div
       className={twMerge(
-        "inline-flex  items-center px-1 sm:px-2 py-1 gap-x-2 sm:gap-x-0 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200 hover:opacity-80 ",
+        "inline-flex  items-center px-1 sm:px-2 py-1 gap-x-2 sm:gap-x-0 rounded-full text-xs font-medium transition-colors duration-200 hover:opacity-80 ",
         className
       )}
       style={{
