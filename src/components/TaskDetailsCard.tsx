@@ -126,9 +126,14 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
         />
         <Divider />
       </div>
+      <div className="grid gap-2 ">
+        <DetailItem label="Id" value={task.id} isEditable={false} />
+        <Divider />
+      </div>
+
       <div className="grid grid-cols-[auto_1fr] items-start gap-2">
         <DetailItem
-          label="Created At"
+          label="Creation date"
           value={new Date(task.createdAt).toLocaleString()}
           icon={<Calendar className="w-4 h-4 text-gray-500" />}
           isEditable={false}
