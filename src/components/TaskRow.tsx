@@ -24,14 +24,23 @@ const TaskInfoButton = ({ onClick }: { onClick: () => void }) => (
   </button>
 );
 
-const TaskContent = ({ task }: { task: Task }) => (
+const TaskContent = ({
+  task,
+  setOpenDetails,
+}: {
+  task: Task;
+  setOpenDetails: (open: boolean) => void;
+}) => (
   <div className="flex-1 text-xs md:text-sm grid rounded-md py-4 gap-8 grid-cols-5 items-center px-4">
     <Tooltip
       content={task.description}
       id={`task-title-${task.id}`}
       delayShow={200}
     >
-      <div className="flex items-center gap-2">
+      <div
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={() => setOpenDetails(true)}
+      >
         <h2 className="text-ellipsis overflow-hidden text-nowrap">
           {task.title}
         </h2>
@@ -86,7 +95,7 @@ export default function TaskRow({ task }: TaskRowProps) {
         <Tooltip content="View Details" id={`view-task-${task.id}`}>
           <TaskInfoButton onClick={() => setIsOpen(true)} />
         </Tooltip>
-        <TaskContent task={task} />
+        <TaskContent task={task} setOpenDetails={setIsOpen} />
         <Tooltip content="Delete Task" id={`delete-task-${task.id}`}>
           <button
             onClick={handleDelete}
