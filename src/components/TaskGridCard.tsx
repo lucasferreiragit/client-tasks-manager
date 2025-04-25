@@ -36,7 +36,7 @@ export default function TaskGridCard({ task }: { task: Task }) {
               {new Date(task.createdAt).toLocaleDateString()}
             </span>
           </div>
-          <PriorityChip priority={task.priority} />
+          <PriorityChip priority={task.priority} alwaysShowLabel />
         </div>
       </div>
 

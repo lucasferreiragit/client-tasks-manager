@@ -117,7 +117,9 @@ export default function TaskDetailsCard({ task }: { task: Task }) {
         <DetailItem
           label="Priority"
           rawValue={formik.values.priority}
-          value={<PriorityChip priority={formik.values.priority} />}
+          value={
+            <PriorityChip priority={formik.values.priority} alwaysShowLabel />
+          }
           isEditing={editingField === "priority"}
           onDoubleClick={handleDoubleClick("priority")}
           onBlur={handleBlur}

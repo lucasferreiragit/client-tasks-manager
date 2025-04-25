@@ -7,9 +7,14 @@ import { twMerge } from "tailwind-merge";
 type PriorityChipProps = {
   priority: string;
   className?: string;
+  alwaysShowLabel?: boolean;
 };
 
-export function PriorityChip({ priority, className = "" }: PriorityChipProps) {
+export function PriorityChip({
+  priority,
+  className = "",
+  alwaysShowLabel = false,
+}: PriorityChipProps) {
   const priorityLabel =
     PRIORITY_OPTIONS[priority as keyof typeof PRIORITY_OPTIONS] || "None";
 
@@ -21,12 +26,18 @@ export function PriorityChip({ priority, className = "" }: PriorityChipProps) {
     <div
       className={twMerge("flex justify-center items-center gap-1.5", className)}
     >
-      <div
-        className="sm:hidden w-4 h-4 rounded-full"
-        style={{ backgroundColor: colors.bg }}
-      />
+      {!alwaysShowLabel && (
+        <div
+          className="sm:hidden w-4 h-4 rounded-full"
+          style={{ backgroundColor: colors.bg }}
+        />
+      )}
+
       <span
-        className="hidden sm:inline text-xs font-medium px-2 py-1 rounded-full"
+        className={twMerge(
+          "text-xs font-medium px-2 py-1 rounded-full",
+          alwaysShowLabel ? "" : "hidden sm:inline"
+        )}
         style={{
           backgroundColor: colors.bg,
           color: colors.text,
