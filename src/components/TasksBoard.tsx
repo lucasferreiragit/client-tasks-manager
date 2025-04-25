@@ -6,6 +6,7 @@ import { Task } from "../types";
 import FilterPopover from "./ui/FilterPopover";
 import ViewSwitcher from "./ui/ViewSwitcher";
 import TasksList from "./TasksList";
+import TasksGrid from "./TasksGrid";
 
 export default function TasksBoard({ tasks }: { tasks: Task[] }) {
   const [view, setView] = useState<"list" | "grid">("list");
@@ -51,10 +52,7 @@ export default function TasksBoard({ tasks }: { tasks: Task[] }) {
       {view === "list" ? (
         <TasksList tasks={filteredTasks} />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 w-full ">
-          {/* Grid view will be implemented later */}
-          <div className="text-center text-gray-500">Grid view coming soon</div>
-        </div>
+        <TasksGrid tasks={filteredTasks} />
       )}
     </div>
   );
